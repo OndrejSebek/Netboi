@@ -1,0 +1,341 @@
+# depslib dependency file v1.0
+1526383724 source:/home/zenbook/x/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1525721908 /home/zenbook/x/NN/mtx.h
+	<vector>
+	<iostream>
+
+1526054330 /home/zenbook/x/NN/net.h
+	"mtx.h"
+
+1525764545 source:/home/zenbook/x/NN/mtx.cpp
+	"mtx.h"
+
+1526383805 source:/home/zenbook/x/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+
+1526374480 /home/zenbook/x/NN/data.h
+	<vector>
+
+1526375361 source:/home/zenbook/x/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+
+1531654586 source:/home/zenbook/Desktop/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/NN/data.h
+	<vector>
+
+1531667127 source:/home/zenbook/Desktop/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1531655154 /home/zenbook/Desktop/NN/mtx.h
+	<vector>
+	<iostream>
+
+1531595482 /home/zenbook/Desktop/NN/net.h
+	"mtx.h"
+
+1531655209 source:/home/zenbook/Desktop/NN/mtx.cpp
+	"mtx.h"
+
+1531667503 source:/home/zenbook/Desktop/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1526827878 /home/zenbook/Desktop/NN/mtx.cpp
+	"mtx.h"
+
+1531717873 source:/home/zenbook/Desktop/Net/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/Net/NN/data.h
+	<vector>
+
+1531748401 source:/home/zenbook/Desktop/Net/NN/mtx.cpp
+	"mtx.h"
+
+1531748364 /home/zenbook/Desktop/Net/NN/mtx.h
+	<vector>
+	<iostream>
+
+1531748199 source:/home/zenbook/Desktop/Net/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1531676323 /home/zenbook/Desktop/Net/NN/net.h
+	"mtx.h"
+
+1531747828 source:/home/zenbook/Desktop/Net/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1531717873 source:/home/zenbook/Desktop/Net (copy)/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/Net (copy)/NN/data.h
+	<vector>
+
+1533495542 source:/home/zenbook/Desktop/Net (copy)/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1533499279 /home/zenbook/Desktop/Net (copy)/NN/mtx.h
+	<vector>
+	<iostream>
+
+1533495279 /home/zenbook/Desktop/Net (copy)/NN/net.h
+	"mtx.h"
+
+1533499286 source:/home/zenbook/Desktop/Net (copy)/NN/mtx.cpp
+	"mtx.h"
+
+1533498076 source:/home/zenbook/Desktop/Net (copy)/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1531717873 source:/home/zenbook/Desktop/Net (4another copy)/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/Net (4another copy)/NN/data.h
+	<vector>
+
+1533751989 source:/home/zenbook/Desktop/Net (4another copy)/NN/mtx.cpp
+	"mtx.h"
+
+1533752022 /home/zenbook/Desktop/Net (4another copy)/NN/mtx.h
+	<vector>
+	<iostream>
+
+1533751812 source:/home/zenbook/Desktop/Net (4another copy)/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1533751790 /home/zenbook/Desktop/Net (4another copy)/NN/net.h
+	"mtx.h"
+
+1533751457 source:/home/zenbook/Desktop/Net (4another copy)/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1531717873 source:/home/zenbook/Desktop/Net (4another copy) (copy)/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/Net (4another copy) (copy)/NN/data.h
+	<vector>
+
+1533758629 source:/home/zenbook/Desktop/Net (4another copy) (copy)/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1533755284 /home/zenbook/Desktop/Net (4another copy) (copy)/NN/mtx.h
+	<vector>
+	<iostream>
+
+1533755345 /home/zenbook/Desktop/Net (4another copy) (copy)/NN/net.h
+	"mtx.h"
+
+1533757069 source:/home/zenbook/Desktop/Net (4another copy) (copy)/NN/mtx.cpp
+	"mtx.h"
+
+1533758384 source:/home/zenbook/Desktop/Net (4another copy) (copy)/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1531717873 source:/home/zenbook/Desktop/Net (4another copy) (another copy)/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1531651478 /home/zenbook/Desktop/Net (4another copy) (another copy)/NN/data.h
+	<vector>
+
+1533887881 source:/home/zenbook/Desktop/Net (4another copy) (another copy)/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1533888032 /home/zenbook/Desktop/Net (4another copy) (another copy)/NN/mtx.h
+	<vector>
+	<iostream>
+
+1533886113 /home/zenbook/Desktop/Net (4another copy) (another copy)/NN/net.h
+	"mtx.h"
+
+1533888032 source:/home/zenbook/Desktop/Net (4another copy) (another copy)/NN/mtx.cpp
+	"mtx.h"
+
+1533888117 source:/home/zenbook/Desktop/Net (4another copy) (another copy)/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1534266212 source:/home/zenbook/Desktop/Net_opt/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1534266220 /home/zenbook/Desktop/Net_opt/NN/data.h
+	<vector>
+
+1534266701 source:/home/zenbook/Desktop/Net_opt/NN/mtx.cpp
+	"mtx.h"
+
+1534266085 /home/zenbook/Desktop/Net_opt/NN/mtx.h
+	<vector>
+	<iostream>
+
+1534270702 source:/home/zenbook/Desktop/Net_opt/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1534269603 /home/zenbook/Desktop/Net_opt/NN/net.h
+	"mtx.h"
+
+1534274684 source:/home/zenbook/Desktop/Net_opt/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
+1534266212 source:/home/zenbook/x/IH CAS/Net/Net_opt/NN/data.cpp
+	<fstream>
+	"data.h"
+	<iostream>
+	<algorithm>
+	"bits/stdc++.h"
+
+1534266220 /home/zenbook/x/IH CAS/Net/Net_opt/NN/data.h
+	<vector>
+
+1534266701 source:/home/zenbook/x/IH CAS/Net/Net_opt/NN/mtx.cpp
+	"mtx.h"
+
+1534266085 /home/zenbook/x/IH CAS/Net/Net_opt/NN/mtx.h
+	<vector>
+	<iostream>
+
+1536351112 source:/home/zenbook/x/IH CAS/Net/Net_opt/NN/net.cpp
+	"net.h"
+	<math.h>
+	<stdlib.h>
+	<fstream>
+	<vector>
+	<algorithm>
+
+1534269603 /home/zenbook/x/IH CAS/Net/Net_opt/NN/net.h
+	"mtx.h"
+
+1536415103 source:/home/zenbook/x/IH CAS/Net/Net_opt/NN/main.cpp
+	<iostream>
+	<fstream>
+	<stdlib.h>
+	<cmath>
+	<vector>
+	"mtx.h"
+	"net.h"
+	"data.h"
+
