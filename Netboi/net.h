@@ -47,7 +47,7 @@ public:
 
     Mtx bufferMtx;
 
-
+    int neurons_max;
     vector <int> neurons;
     double learning_rate;
     double m_learning_rate;

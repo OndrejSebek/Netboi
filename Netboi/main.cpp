@@ -17,13 +17,11 @@ int main()
 */
 
 /*
-    todo:   !clean code
+    !clean code
             comp tanh(-0.9, 0.9) x sigm(0.1, 0.9)
 
 
             momentum Mtx pointers
-
-
 */
 
 /*
@@ -31,7 +29,7 @@ int main()
 */
 
 
-    int row = 8758, col = 26, col_exp = 1;
+    int row = 34, col = 9, col_exp = 1;
 
     vector< vector<double> > inp;
     vector< vector<double> > exp_out;
@@ -39,13 +37,13 @@ int main()
     vector< vector<double> > inp_val;
     vector< vector<double> > exp_out_val;
 
-    readData("inp/LIZ/20inp/inp.txt", inp, row, col);
-    readData("inp/LIZ/20inp/exp_out.txt", exp_out, row, col_exp);
+    readData("inp/INP.txt", inp, row, col);
+    readData("inp/EXP_OUT.txt", exp_out, row, col_exp);
 
-    int row_val = 8758;
+    int row_val = 34;
 
-    readData("inp/LIZ/20inp/inp.txt", inp_val, row_val, col);
-    readData("inp/LIZ/20inp/exp_out.txt", exp_out_val, row_val, col_exp);
+    readData("inp/INP.txt", inp_val, row_val, col);
+    readData("inp/EXP_OUT.txt", exp_out_val, row_val, col_exp);
 
     // Stand
 
@@ -71,7 +69,7 @@ int main()
 */
 
 
-    vector<int> neurons = {col, 8, col_exp};              //  !! FIX   col < neurons
+    vector<int> neurons = {col, 100, col_exp};
     double l_r = 0.1, m_l_r = 0.05;
 
     p_double trans_fun = sigmoid;
@@ -92,7 +90,7 @@ int main()
     net.exp_out0_size = col_exp;
 */
 
-    net.learn(5000, 50, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);
+    net.learn(1000000, 10000, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);
 
 
 /*
@@ -120,7 +118,7 @@ int main()
     for(int i = 0; i < inp.size(); i++)
     {
         net.feedforward(inp[i], trans_fun);
-        out.mtx_load(net.H[2].array[0], 1);
+        out.mtx_load(net.H[2].array[0], 1);                     // !! H[2] = res
         out.destand(exp_min, exp_max, low, high);
 
         outf << out;

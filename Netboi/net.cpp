@@ -31,6 +31,7 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
     dEdB = vector< Mtx >(n_hidden+1);
 
     n_weights = vector <int> (n_hidden+1);
+    neurons_max = 0;
 
 
     // ALLOC
@@ -39,10 +40,17 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
     {
         H[i] = Mtx(1, neurons[i]);
 
-        W[i] = Mtx(neurons[i], neurons[i+1]);
-        B[i] = Mtx(1, neurons[i+1]);
+        if(neurons[i] > neurons[i+1])
+        {
+            W[i] = Mtx(neurons[i], neurons[i+1]);
+            dEdW[i] = Mtx(neurons[i], neurons[i+1]);
+        } else
+        {
+            W[i] = Mtx(neurons[i+1], neurons[i]);
+            dEdW[i] = Mtx(neurons[i+1], neurons[i]);
+        }
 
-        dEdW[i] = Mtx(neurons[i], neurons[i+1]);
+        B[i] = Mtx(1, neurons[i+1]);
         dEdB[i] = Mtx(1, neurons[i+1]);
 
         W[i].applyFunction(random_w);
@@ -50,11 +58,13 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
 
         n_weights[i] = neurons[i] * neurons[i+1];
 
+        if(neurons[i] > neurons_max)
+            neurons_max = neurons[i];
     }
 
     H[n_hidden+1] = Mtx(1, neurons[n_hidden+1]);
 
-    bufferMtx = Mtx(neurons[0], neurons[0]);
+    bufferMtx = Mtx(neurons_max, neurons_max);
 
     Y = Mtx(1, 1);
 
