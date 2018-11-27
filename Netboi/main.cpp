@@ -17,10 +17,7 @@ int main()
 */
 
 /*
-    !clean code
             comp tanh(-0.9, 0.9) x sigm(0.1, 0.9)
-
-
             momentum Mtx pointers
 */
 
@@ -69,17 +66,15 @@ int main()
 */
 
 
-    vector<int> neurons = {col, 100, col_exp};
+    vector<int> neurons = {col, 8, col_exp};
     double l_r = 0.1, m_l_r = 0.05;
 
     p_double trans_fun = sigmoid;
     p_double trans_fun_d = sigmoid_d;
 
-//
-    Net net(neurons, l_r, m_l_r);                                                                               // {neurons}, lr, mlr
-//
-//
-//  net.learn(100, 100, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);                              // n_epochs, n_eval, inp, exp_out, trans_fun, trans_fun_d
+
+    Net net(neurons, l_r, m_l_r);                                                                                       // {neurons}, lr, mlr
+
 
 
   //  Net net("out/8/100k/NETWORKPARAMS.txt");
@@ -90,19 +85,15 @@ int main()
     net.exp_out0_size = col_exp;
 */
 
-    net.learn(1000000, 10000, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);
+    net.learn(10000, 1000, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);                                 // n_epochs, n_eval, inp, exp_out, trans_fun, trans_fun_d
 
 
 /*
     //net.epoch = 0;
-
     //net.learning_rate = 0.01;
     //net.m_learning_rate = 0.005;
-
-
     //cout << net.learning_rate << "  " << net.m_learning_rate << " " << net.epoch << endl;
 */
-
 
 
 
@@ -110,32 +101,8 @@ int main()
         VAL
 */
 
-
-    ofstream outf;
-    outf.open("out/out_cal.txt");
-
-    Mtx out(1, 1);
-    for(int i = 0; i < inp.size(); i++)
-    {
-        net.feedforward(inp[i], trans_fun);
-        out.mtx_load(net.H[2].array[0], 1);                     // !! H[2] = res
-        out.destand(exp_min, exp_max, low, high);
-
-        outf << out;
-    }
-
-    ofstream outf_v;
-    outf_v.open("out/out_val.txt");
-
-    for(int i = 0; i < inp_val.size(); i++)
-    {
-        net.feedforward(inp_val[i], trans_fun);
-        out.mtx_load(net.H[2].array[0], 1);
-        out.destand(exp_min, exp_max, low, high);
-
-        outf_v << out;
-    }
-
+    net.print_res("out/out_cal.txt", inp, trans_fun, exp_min, exp_max, low, high);
+    net.print_res("out/out_val.txt", inp_val, trans_fun, exp_min, exp_max, low, high);
 
     net.saveNetworkParams("out/NETWORKPARAMS.txt");
 /*

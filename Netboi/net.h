@@ -29,6 +29,8 @@ public:
     void printToFile(Mtx &m, ostream &file);
     void saveNetworkParams(const char *outf_path);
 
+    void print_res(char * file, vector < vector <double>> &inp, p_double trans_fun, vector <double> & exp_min, vector <double> & exp_max, double low, double high);
+
 
 //private:
 

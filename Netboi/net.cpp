@@ -40,15 +40,8 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
     {
         H[i] = Mtx(1, neurons[i]);
 
-        if(neurons[i] > neurons[i+1])
-        {
-            W[i] = Mtx(neurons[i], neurons[i+1]);
-            dEdW[i] = Mtx(neurons[i], neurons[i+1]);
-        } else
-        {
-            W[i] = Mtx(neurons[i+1], neurons[i]);
-            dEdW[i] = Mtx(neurons[i+1], neurons[i]);
-        }
+        W[i] = Mtx(neurons[i], neurons[i+1]);
+        dEdW[i] = Mtx(neurons[i], neurons[i+1]);
 
         B[i] = Mtx(1, neurons[i+1]);
         dEdB[i] = Mtx(1, neurons[i+1]);
@@ -320,7 +313,7 @@ void Net::learn_batch(int n_epochs, int n_eval, vector< vector<double> > &inp, v
                 if(j < inp_val_size)
                 {
                     feedforward(inp_val[j], trans_fun);                                                                                             // j not enough if |inp| < |inp_val|
-                    error_val += (H[n_hidden+1].array[0][0] - exp_out_val[0][j])*(H[n_hidden+1].array[0][0] - exp_out_val[0][j])   ;
+                    error_val += (H[n_hidden+1].array[0][0] - exp_out_val[j][0])*(H[n_hidden+1].array[0][0] - exp_out_val[j][0])   ;
                 }
 
                 if(j == inp_size-1) cout << "epoch:  " << epoch+1 << "     cal:  " << error << "    val:  " << error_val << endl;
@@ -426,7 +419,7 @@ void Net::learn_momentum(int n_epochs, int n_eval, vector< vector<double> > &inp
                 if(j < inp_val_size)
                 {
                     feedforward(inp_val[j], trans_fun);                                                                                             // j not enough if |inp| < |inp_val|
-                    error_val += (H[n_hidden+1].array[0][0] - exp_out_val[0][j])*(H[n_hidden+1].array[0][0] - exp_out_val[0][j])   ;
+                    error_val += (H[n_hidden+1].array[0][0] - exp_out_val[j][0])*(H[n_hidden+1].array[0][0] - exp_out_val[j][0])   ;
                 }
 
                 if(j == inp_size-1) cout << "epoch:  " << epoch+1 << "     cal:  " << error << "    val:  " << error_val << endl;
@@ -644,7 +637,22 @@ void Net::dropout(int n_dropout)
 }
 
 
+void Net::print_res(char * file, vector < vector <double>> &inp, p_double trans_fun, vector <double> & exp_min, vector <double> & exp_max, double low, double high)
+{
+    ofstream outf;
+    outf.open(file);
 
+    Mtx out(1, 1);
+
+    for(int i = 0; i < inp.size(); i++)
+    {
+        feedforward(inp[i], trans_fun);
+        out.mtx_load(H[neurons.size()-1].array[0], 1);                                                                  // H[last] .. 1 neuron
+        out.destand(exp_min, exp_max, low, high);
+
+        outf << out;
+    }
+}
 
 
 // ACTIVATION FUNCTIONS
@@ -702,51 +710,7 @@ void Hello()
 
 int testFun()
 {
-
-
-
-    int r = 3, c = 3;
-
-    int k = 0;
-
-    Mtx m(r, c);
-
-    for(int i = 0; i < r; i++)
-    {
-        for(int j = 0; j < c; j++)
-        {
-            m.array[i][j] = k++;
-        }
-    }
-
-    Mtx n(r, c);
-
-    for(int i = 0; i < r; i++)
-    {
-        for(int j = 0; j < c; j++)
-        {
-            n.array[i][j] = k++;
-        }
-    }
-
-
-    Mtx res;
-
-    for(int i = 0; i < 100000; i++)
-    {
-        n.add(m);
-        n.multiply(0);
-    }
-
-
-
-
-
-    n.print(cout);
-
-
-
-
+    cout << "testfun";
     return 0;
 
 }
