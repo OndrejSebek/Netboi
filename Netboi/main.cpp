@@ -24,60 +24,22 @@ int main()
 /*
         CAL
 */
+    vector<int> neurons = {9, 8, 1};
+    double l_r = 0.1, m_l_r = 0.05;
 
 
-    int row = 34, col = 9, col_exp = 1;
-
-    vector< vector<double> > inp;
-    vector< vector<double> > exp_out;
-
-    vector< vector<double> > inp_val;
-    vector< vector<double> > exp_out_val;
-
-    readData("inp/INP.txt", inp, row, col);
-    readData("inp/EXP_OUT.txt", exp_out, row, col_exp);
-
-    int row_val = 34;
-
-    readData("inp/INP.txt", inp_val, row_val, col);
-    readData("inp/EXP_OUT.txt", exp_out_val, row_val, col_exp);
-
-    // Stand
-
-    // mean = 0, stdev = 1
-    stand_Data(inp);
-    stand_Data(inp_val);
-
-
-    vector <double> exp_max(exp_out.size());
-    vector <double> exp_min(exp_out.size());
-
-    // Target values
-    double low = 0.1;
-    double high = 0.9;
-
-    stand_Data_exp(exp_out, exp_min, exp_max, low, high);
-    stand_Data_exp(exp_out_val, exp_min, exp_max, low, high);
-
-
+    Net net({9, 8, 1}, l_r, m_l_r);
+    net.load("inp/INP.txt", "inp/EXP_OUT.txt", "inp/INP.txt", "inp/EXP_OUT.txt", 34, 34, 0.1, 0.9, sigmoid, sigmoid_d);
 
 /*
         NET   (shuffling > ff > backprop > update)
 */
 
 
-    vector<int> neurons = {col, 8, col_exp};
-    double l_r = 0.1, m_l_r = 0.05;
-
-    p_double trans_fun = sigmoid;
-    p_double trans_fun_d = sigmoid_d;
+                                                                                          // {neurons}, lr, mlr
 
 
-    Net net(neurons, l_r, m_l_r);                                                                                       // {neurons}, lr, mlr
-
-
-
-  //  Net net("out/8/100k/NETWORKPARAMS.txt");
+    //Net net("out/NETWORKPARAMS.txt");
 /*
     net.inp_size = row;
     net.inp0_size = col;
@@ -85,7 +47,7 @@ int main()
     net.exp_out0_size = col_exp;
 */
 
-    net.learn(10000, 1000, inp, exp_out, inp_val, exp_out_val, trans_fun, trans_fun_d);                                 // n_epochs, n_eval, inp, exp_out, trans_fun, trans_fun_d
+    net.learn(10000, 1000);                                 // n_epochs, n_eval, inp, exp_out, trans_fun, trans_fun_d
 
 
 /*
@@ -101,8 +63,8 @@ int main()
         VAL
 */
 
-    net.print_res("out/out_cal.txt", inp, trans_fun, exp_min, exp_max, low, high);
-    net.print_res("out/out_val.txt", inp_val, trans_fun, exp_min, exp_max, low, high);
+    net.print_res("out_cal.txt");
+    net.print_res("out_val.txt");
 
     net.saveNetworkParams("out/NETWORKPARAMS.txt");
 /*

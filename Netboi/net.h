@@ -13,6 +13,8 @@ public:
     Net(vector<int> const &neurons, double const &learning_rate, double const &m_learning_rate);
     Net(const char *filepath);
 
+    void load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, p_double trans_fun, p_double trans_fun_d);
+
     void feedforward(vector<double> const &inp, p_double trans_fun);
 
     void backprop(vector <double> const &exp_out, p_double trans_fun_d);
@@ -20,7 +22,7 @@ public:
     void update_weights();
     void update_weights_momentum(vector < Mtx > &dEdW_prev, vector < Mtx > &dEdB_prev);
 
-    void learn(int n_epochs, int n_eval, vector< vector<double> > &inp, vector< vector<double> > &exp_out, vector< vector<double> > &inp_val, vector< vector<double> > &exp_out_val, p_double trans_fun, p_double trans_fun_d);
+    void learn(int n_epochs, int n_eval);
     void learn_batch(int n_epochs, int n_eval, vector< vector<double> > &inp, vector< vector<double> > &exp_out, vector< vector<double> > &inp_val, vector< vector<double> > &exp_out_val, p_double trans_fun, p_double trans_fun_d);
     void learn_momentum(int n_epochs, int n_eval, vector< vector<double> > &inp, vector< vector<double> > &exp_out, vector< vector<double> > &inp_val, vector< vector<double> > &exp_out_val, p_double trans_fun, p_double trans_fun_d);
 
@@ -29,7 +31,7 @@ public:
     void printToFile(Mtx &m, ostream &file);
     void saveNetworkParams(const char *outf_path);
 
-    void print_res(char * file, vector < vector <double>> &inp, p_double trans_fun, vector <double> & exp_min, vector <double> & exp_max, double low, double high);
+    void print_res(char * file);
 
 
 //private:
@@ -58,6 +60,27 @@ public:
     int epoch;
 
     vector <int> shuffling_ind;
+
+    // inps
+    int row;
+    int row_val;
+    int col;
+    int col_exp;
+
+    vector< vector<double> > inp;
+    vector< vector<double> > exp_out;
+
+    vector< vector<double> > inp_val;
+    vector< vector<double> > exp_out_val;
+
+    vector <double> exp_max;
+    vector <double> exp_min;
+
+    double low;
+    double high;
+
+    p_double trans_fun;
+    p_double trans_fun_d;
 
     int inp_size;
     int inp0_size;

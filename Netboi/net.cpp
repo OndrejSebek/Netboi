@@ -1,4 +1,5 @@
 #include "net.h"
+#include "data.h"
 #include <math.h>
 #include <stdlib.h>
 #include <fstream>
@@ -23,6 +24,9 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
     this->m_learning_rate = m_learning_rate;
     this->n_hidden = neurons.size() - 2;
     this->neurons = neurons;
+
+    this->col = neurons[0];
+    this->col_exp = neurons[neurons.size()-1];
 
     H = vector< Mtx >(n_hidden+2);
     W = vector< Mtx >(n_hidden+1);
@@ -192,7 +196,7 @@ void Net::update_weights_momentum(vector < Mtx > &dEdW_prev, vector < Mtx > &dEd
  * \return void
  *
  */
-void Net::learn(int n_epochs, int n_eval, vector< vector<double> > &inp, vector< vector<double> > &exp_out, vector< vector<double> > &inp_val, vector< vector<double> > &exp_out_val, p_double trans_fun, p_double trans_fun_d)     // while -> for, error pri i%xxx == 0
+void Net::learn(int n_epochs, int n_eval)     // while -> for, error pri i%xxx == 0
 {
     Hello();
 
@@ -228,6 +232,8 @@ void Net::learn(int n_epochs, int n_eval, vector< vector<double> > &inp, vector<
 */
         for(unsigned int j = 0; j < inp_size; j++)
         {
+
+
             feedforward(inp[shuffling_ind[j]], trans_fun);     // take inp with index from randomly shuffled array
             backprop(exp_out[shuffling_ind[j]], trans_fun_d);
             update_weights();
@@ -505,7 +511,7 @@ void Net::saveNetworkParams(const char *outf_path)
  */
 Net::Net(const char *filepath)
 {
-    srand (time(NULL));
+    srand(time(NULL));
     ifstream in(filepath);
 
     int n_row, n_col;
@@ -589,6 +595,8 @@ Net::Net(const char *filepath)
         }
 
         in.close();
+
+        //load()
     }
 
 }
@@ -637,7 +645,7 @@ void Net::dropout(int n_dropout)
 }
 
 
-void Net::print_res(char * file, vector < vector <double>> &inp, p_double trans_fun, vector <double> & exp_min, vector <double> & exp_max, double low, double high)
+void Net::print_res(char * file)
 {
     ofstream outf;
     outf.open(file);
@@ -653,6 +661,38 @@ void Net::print_res(char * file, vector < vector <double>> &inp, p_double trans_
         outf << out;
     }
 }
+
+
+void Net::load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, p_double trans_fun, p_double trans_fun_d)
+{
+    this->row = row;
+    this->row_val = row_val;
+
+    // Target values
+    this->high = high;
+    this->low = low;
+    this->trans_fun = trans_fun;
+    this->trans_fun_d = trans_fun_d;
+
+    readData(INP, inp, row, col);
+    readData(EXP_OUT, exp_out, row, col_exp);
+
+    readData(INP_VAL, inp_val, row_val, col);
+    readData(EXP_OUT_VAL, exp_out_val, row_val, col_exp);
+
+    // Stand
+    // mean = 0, stdev = 1
+    stand_Data(inp);
+    stand_Data(inp_val);
+
+    exp_max.resize(exp_out.size());
+    exp_min.resize(exp_out.size());
+
+    stand_Data_exp(exp_out, exp_min, exp_max, low, high);
+    stand_Data_exp(exp_out_val, exp_min, exp_max, low, high);
+}
+
+
 
 
 // ACTIVATION FUNCTIONS
