@@ -77,7 +77,7 @@ Net::Net(vector<int> const &neurons, double const &learning_rate, double const &
  */
 void Net::feedforward(vector<double> const &inp, p_double trans_fun)
 {
-    H[0].mtx_load(inp, inp0_size);
+    H[0].mtx_load(inp, col);
 
     for(int i = 1; i < n_hidden+2; i++)         //  H[i] = trans_fun{H[i-1] * (W[i-1]) + (B[i-1])};
     {
@@ -207,18 +207,15 @@ void Net::learn(int n_epochs, int n_eval)     // while -> for, error pri i%xxx =
 
 
     double error, error_val;
-    int i = 0;
 
     // shuffling
     shuffling_ind = vector <int> (inp_size);
     for(unsigned int i = 0; i < inp_size; i++)
         shuffling_ind[i] = i;
 
-
     while(epoch < n_epochs)
     {
-        i++;
-        if(i%n_eval==0)
+        if(epoch%n_eval==0)
         {
             error = 0;
             error_val = 0;
@@ -232,13 +229,14 @@ void Net::learn(int n_epochs, int n_eval)     // while -> for, error pri i%xxx =
 */
         for(unsigned int j = 0; j < inp_size; j++)
         {
-
-
             feedforward(inp[shuffling_ind[j]], trans_fun);     // take inp with index from randomly shuffled array
+            //cout << exp_out[shuffling_ind[j]][0];
+            //getchar();
             backprop(exp_out[shuffling_ind[j]], trans_fun_d);
             update_weights();
 
-            if(i%n_eval == 0)
+
+            if(epoch%n_eval == 0)
             {
                 //error += pow((H[n_hidden+1].array[0][0] - Y.array[0][0]), 2)   ;    //H[n_hidden+1].subtract(Y);
                 error += (H[n_hidden+1].array[0][0] - Y.array[0][0])*(H[n_hidden+1].array[0][0] - Y.array[0][0])   ;
@@ -250,7 +248,7 @@ void Net::learn(int n_epochs, int n_eval)     // while -> for, error pri i%xxx =
                     error_val += (H[n_hidden+1].array[0][0] - exp_out_val[j][0])*(H[n_hidden+1].array[0][0] - exp_out_val[j][0])   ;
                 }
 
-                if(j == inp_size-1) cout << "epoch:  " << epoch+1 << "     cal:  " << error << "    val:  " << error_val << endl;
+                if(j == inp_size-1) cout << "epoch:  " << epoch << "     cal:  " << error << "    val:  " << error_val << endl;
             }
 
 
@@ -449,6 +447,8 @@ void Net::printToFile(Mtx &m, ostream &outf)
     outf << m.row << endl;
     outf << m.col << endl;
 
+    outf.precision(17);
+
     for (int i = 0; i < m.row; i++)
     {
         for (int j = 0; j < m.col; j++)
@@ -469,15 +469,19 @@ void Net::printToFile(Mtx &m, ostream &outf)
 void Net::saveNetworkParams(const char *outf_path)
 {
     ofstream out(outf_path);
+    out.precision(17);
 
     out << n_hidden << endl;
 
     for(int i = 0; i < n_hidden+2; i++)
         out << neurons[i] << " ";
 
+    out << endl << neurons_max;
     out << endl << learning_rate << endl;
     out << m_learning_rate << endl;
     out << epoch << endl;
+
+
 
     for (Mtx m : W){
         printToFile(m, out);
@@ -500,6 +504,28 @@ void Net::saveNetworkParams(const char *outf_path)
         printToFile(m, out);
     }
 */
+    for(int i = 0; i < col_exp; i++)
+        out << exp_max[i] << " ";
+
+    out << endl;
+    for(int i = 0; i < col_exp; i++)
+        out << exp_min[i] << " ";
+
+    out << endl << high;
+    out << endl << low;
+
+    out << endl << transfun_opt;
+
+    out << endl;
+    for(int i = 0; i < col; i++)
+        out << mean[i] << " ";
+
+    out << endl;
+    for(int i = 0; i < col; i++)
+        out << stdev[i] << " ";
+
+
+
     out.close();
 }
 
@@ -525,10 +551,13 @@ Net::Net(const char *filepath)
         for(int i = 0; i < n_hidden+2; i++)
             in >> neurons[i];
 
+        in >> neurons_max;
         in >> learning_rate;
         in >> m_learning_rate;
         in >> epoch;
 
+        this->col = neurons[0];
+        this->col_exp = neurons[neurons.size()-1];
 
         H = vector< Mtx >(n_hidden+2);
         W = vector< Mtx >(n_hidden+1);
@@ -559,7 +588,7 @@ Net::Net(const char *filepath)
 
         H[n_hidden+1] = Mtx(1, neurons[n_hidden+1]);
 
-        bufferMtx = Mtx(neurons[0], neurons[0]);
+        bufferMtx = Mtx(neurons_max, neurons_max);
 
         Y = Mtx(1, 1);
 
@@ -594,9 +623,41 @@ Net::Net(const char *filepath)
             }
         }
 
-        in.close();
+        exp_max.resize(col_exp);
+        exp_min.resize(col_exp);
 
-        //load()
+        for(int i = 0; i < col_exp; i++)
+            in >> exp_max[i];
+
+        for(int i = 0; i < col_exp; i++)
+            in >> exp_min[i];
+
+        in >> high;
+        in >> low;
+
+        in >> transfun_opt;
+        if(transfun_opt == 1)
+        {
+            trans_fun = sigmoid;
+            trans_fun_d = sigmoid_d;
+        }
+        else if(transfun_opt == 2)
+        {
+            trans_fun = tanhf;
+            trans_fun_d = tanh_d;
+        }
+
+
+        stdev.resize(col);
+        mean.resize(col);
+        for(int i = 0; i < col; i++)
+            in >> mean[i];
+
+        for(int i = 0; i < col; i++)
+            in >> stdev[i];
+/*
+*/
+        in.close();
     }
 
 }
@@ -645,25 +706,50 @@ void Net::dropout(int n_dropout)
 }
 
 
-void Net::print_res(char * file)
+void Net::print_res(char * file, int res_opt)
 {
     ofstream outf;
     outf.open(file);
+    outf.precision(17);
 
     Mtx out(1, 1);
 
+    if(res_opt == 1)
+    {
+        for(int i = 0; i < inp.size(); i++)
+        {
+            feedforward(inp[i], trans_fun);
+            out.mtx_load(H[neurons.size()-1].array[0], 1);                                                                  // H[last] .. 1 neuron
+            out.destand(exp_min, exp_max, low, high);
+
+            outf << out;
+        }
+    }
+    else
+    {
+        for(int i = 0; i < inp_val.size(); i++)
+        {
+            feedforward(inp_val[i], trans_fun);
+            out.mtx_load(H[neurons.size()-1].array[0], 1);                                                                  // H[last] .. 1 neuron
+            out.destand(exp_min, exp_max, low, high);
+
+            outf << out;
+        }
+    }
+/*
     for(int i = 0; i < inp.size(); i++)
     {
-        feedforward(inp[i], trans_fun);
-        out.mtx_load(H[neurons.size()-1].array[0], 1);                                                                  // H[last] .. 1 neuron
-        out.destand(exp_min, exp_max, low, high);
-
-        outf << out;
+        for(int j = 0; j < inp[0].size(); j++)
+        {
+            outf << inp[i][j] << " ";
+        }
+        outf << endl;
     }
+*/
 }
 
 
-void Net::load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, p_double trans_fun, p_double trans_fun_d)
+void Net::load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, int transfun_opt)
 {
     this->row = row;
     this->row_val = row_val;
@@ -671,8 +757,19 @@ void Net::load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, i
     // Target values
     this->high = high;
     this->low = low;
-    this->trans_fun = trans_fun;
-    this->trans_fun_d = trans_fun_d;
+    this->transfun_opt = transfun_opt;
+
+    if(transfun_opt == 1)
+    {
+        trans_fun = sigmoid;
+        trans_fun_d = sigmoid_d;
+    }
+    else if(transfun_opt == 2)
+    {
+        trans_fun = tanhf;
+        trans_fun_d = tanh_d;
+
+    }
 
     readData(INP, inp, row, col);
     readData(EXP_OUT, exp_out, row, col_exp);
@@ -682,17 +779,36 @@ void Net::load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, i
 
     // Stand
     // mean = 0, stdev = 1
-    stand_Data(inp);
-    stand_Data(inp_val);
 
-    exp_max.resize(exp_out.size());
-    exp_min.resize(exp_out.size());
 
-    stand_Data_exp(exp_out, exp_min, exp_max, low, high);
-    stand_Data_exp(exp_out_val, exp_min, exp_max, low, high);
+    // find net.mean net.stdev
+    if(epoch == 0)
+    {
+        stdev.resize(col);
+        mean.resize(col);
+
+        exp_max.resize(col_exp);
+        exp_min.resize(col_exp);
+
+        stand_Data(inp, mean, stdev);
+        stand_Data_exp(exp_out, exp_min, exp_max, low, high);
+    }
+    else
+    {
+        apply_stand(inp, mean, stdev);
+        apply_stand_exp(exp_out, exp_min, exp_max, low, high);
+    }
+
+    apply_stand_exp(exp_out_val, exp_min, exp_max, low, high);
+    apply_stand(inp_val, mean, stdev);                                                                                   // !!!!!! CHECK same stdev mean
 }
 
-
+void Net::load_inp(char * INP, int inp_row)
+{
+    this->row = inp_row;
+    readData(INP, inp, row, col);
+    apply_stand(inp, mean, stdev);
+}
 
 
 // ACTIVATION FUNCTIONS

@@ -13,7 +13,8 @@ public:
     Net(vector<int> const &neurons, double const &learning_rate, double const &m_learning_rate);
     Net(const char *filepath);
 
-    void load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, p_double trans_fun, p_double trans_fun_d);
+    void load(char * INP, char * EXP_OUT, char * INP_VAL, char * EXP_OUT_VAL, int row, int row_val, double low, double high, int transfun_opt);
+    void load_inp(char * INP, int row);
 
     void feedforward(vector<double> const &inp, p_double trans_fun);
 
@@ -31,7 +32,7 @@ public:
     void printToFile(Mtx &m, ostream &file);
     void saveNetworkParams(const char *outf_path);
 
-    void print_res(char * file);
+    void print_res(char * file, int res_opt);
 
 
 //private:
@@ -79,6 +80,8 @@ public:
     double low;
     double high;
 
+    int transfun_opt;
+
     p_double trans_fun;
     p_double trans_fun_d;
 
@@ -86,6 +89,9 @@ public:
     int inp0_size;
     int inp_val_size;
     int exp_out0_size;
+
+    vector <double> stdev;
+    vector <double> mean;
 };
 
 double sigmoid(double x);
