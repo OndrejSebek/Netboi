@@ -15,10 +15,6 @@ simple NN model implementation
 - inputs - first layer neuron values (.txt) 
 - expected outputs (.txt)
 
- both for cal and val dataset
 
 #
 
-### out: 
-- network params
-- modelled cal and val dataset values
